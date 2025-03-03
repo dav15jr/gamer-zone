@@ -1,6 +1,7 @@
 import React from 'react'
 const API_KEY = process.env.API_KEY;
 import GenreList from './GenreList';
+
 export default async function GenreData() {
 
   const response = await fetch(`https://api.rawg.io/api/genres?key=${API_KEY}`);
