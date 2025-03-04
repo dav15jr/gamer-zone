@@ -3,7 +3,6 @@
 import logo from '@/assets/Images/logo.png'
 import Image from 'next/image'
 import { Moon, Sun, Search } from 'lucide-react';
-import { useState } from 'react';
 import { useTheme } from 'next-themes';
 export default function Header() {
  
@@ -19,7 +18,7 @@ const currentTheme = theme === 'system' ? systemTheme : theme;
     </div>
     <div className='cursor-pointer'>
      { currentTheme === 'light' ? 
-     (<Moon className='text-black'onClick={()=>setTheme('dark')} /> ):   (<Sun className='text-white' onClick={()=>setTheme('light')} />)}
+     (<Moon className=''onClick={()=>setTheme('dark')} /> ):   (<Sun className='' onClick={()=>setTheme('light')} />)}
     </div>
     </div>
   )

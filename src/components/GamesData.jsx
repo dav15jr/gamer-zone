@@ -2,6 +2,7 @@ import React from 'react'
 const API_KEY = process.env.API_KEY;
 import GamesList from './GamesList';
 import Banner from './Banner';
+import TrendingGames from './TrendingGames';
 
 export default async function GamesData() {
 
@@ -13,11 +14,11 @@ export default async function GamesData() {
   }
   
   const gamesList = data.results;
-  console.log(gamesList);
 
   return (
     <div>
     <Banner gameBanner ={gamesList[0]}/>
+    <TrendingGames gamesList={gamesList} />
     <GamesList gamesList={gamesList} />
     </div>
   )

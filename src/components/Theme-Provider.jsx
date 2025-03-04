@@ -9,7 +9,7 @@ export function ThemeProvider({
 }) {
   return (
   <NextThemesProvider {...props}>
-    <div className="text-black dark:text-white dark:bg-black min-h-screen select-none transition-colors duration-2500">
+    <div className="text-black dark:text-white dark:bg-slate-900 min-h-screen select-none transition-colors duration-2500">
       {children}
       </div>
       </NextThemesProvider>
