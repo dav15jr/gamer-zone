@@ -1,4 +1,5 @@
 import GamesData from '@/components/GamesData';
+import GamesList from '@/components/GamesList';
 import GenreData from '@/components/GenreData';
 
 export default function Home() {

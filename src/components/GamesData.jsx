@@ -15,11 +15,14 @@ export default async function GamesData() {
   
   const gamesList = data.results;
 
+
+
+  
   return (
     <div>
     <Banner gameBanner ={gamesList[0]}/>
     <TrendingGames gamesList={gamesList} />
-    <GamesList gamesList={gamesList} />
+    <GamesList api={API_KEY} />
     </div>
   )
 }
