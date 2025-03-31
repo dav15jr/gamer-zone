@@ -5,6 +5,7 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 import { useGameStore } from '../app/store/GameStore';
 import SearchResults from './SearchResults';
 import { useWishListStore } from '../app/store/WishListStore';
+import { Search } from 'lucide-react';
 
 const GameSearch = ({ gamesData }) => {
   const [query, setQuery] = useState('');
@@ -75,17 +76,18 @@ const GameSearch = ({ gamesData }) => {
   return (
     <div className="game-search-container p-4">
       <form onSubmit={searchGames} className="mb-6">
-        <div className="flex gap-2">
+        <div className="flex bg-slate-200 dark:bg-slate-800 p-2 w-full mx-5 rounded-full items-center">
+        <Search height={20} />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for games..."
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500"
           />
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
           >
             Search
           </button>

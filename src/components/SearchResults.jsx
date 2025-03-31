@@ -1,5 +1,6 @@
 import React from 'react';
 import { useWishListStore } from '../app/store/WishListStore';
+import Image from 'next/image';
 
 const SearchResults = ({ games, onGameSelect, selectedGame }) => {
   const { wishList, addToWishList, removeFromWishList } = useWishListStore();
@@ -23,38 +24,22 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
 
   return (
     <div className="search-results">
-      <h2 className="text-xl font-bold mb-4">Search Results</h2>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 py-5">
+      <h2 className="text-3xl font-bold py-3">Search Results</h2>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 py-5">
         {games.map((game) => (
           <div
             key={game.id}
-            className={`game-card p-4 rounded-lg border hover:shadow-lg transition-all relative
-              ${
-                selectedGame && selectedGame.id === game.id
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200'
-              }`}
+            className="bg-gray-100 dark:bg-gray-700 rounded-lg p-5 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
             onClick={() => onGameSelect(game)}
           >
-            {game.background_image && (
-              <img
-                src={game.background_image}
-                alt={game.name}
-                className="w-full h-48 object-cover rounded-md mb-2"
-              />
-            )}
-            <h3 className="font-semibold text-lg mb-2">{game.name}</h3>
-            <div className="text-sm text-gray-600">
-              <p>Released: {game.released}</p>
-              <p>Rating: {game.rating}/5</p>
-            </div>
             <button
               onClick={(e) => handleWishList(e, game)}
-              className={`absolute top-2 right-2 p-2 rounded-full ${
-                isInWishList(game.id)
-                  ? 'bg-red-500 text-white'
-                  : 'bg-gray-200 hover:bg-gray-300'
-              }`}
+              className={`absolute top-7 right-7 p-2 rounded-full z-10 
+                ${
+                  isInWishList(game.id)
+                    ? 'bg-red-500 text-white'
+                    : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500'
+                } transition-all duration-300`}
               title={
                 isInWishList(game.id)
                   ? 'Remove from Wishlist'
@@ -63,6 +48,24 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
             >
               {isInWishList(game.id) ? '❤️' : '🤍'}
             </button>
+
+            <Image
+              src={game.background_image}
+              alt={game.name}
+              width={800}
+              height={500}
+              className="object-cover w-full h-[200px] rounded-lg"
+            />
+            <h2 className="text-[20px] font-bold dark:text-white">
+              {game.name}
+              <span className="p-1 rounded-sm ml-2 text-sm bg-green-100 text-green-700 align-center font-medium">
+                {game.metacritic ? game.metacritic : 'n/a'}
+              </span>
+            </h2>
+            <h2 className="text-[16px] text-gray-500 dark:text-gray-400">
+              ⭐{game.rating} 🎮 {game.playtime}
+              {' hrs'} 🔞{game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
+            </h2>
           </div>
         ))}
       </div>

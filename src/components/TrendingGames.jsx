@@ -22,17 +22,17 @@ export default function TrendingGames({ gamesList }) {
   return (
     <div className="mt-5 hidden md:block">
       <h2 className="text-3xl font-bold mt-5">Trending Games</h2>
-      <div className="md:grid gap-4 mt-5 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 py-5">
         {gamesList.map(
           (game, index) =>
             index < 4 && (
               <div
-                key={index}
-                className="bg-zinc-50 dark:bg-slate-800 rounded-lg shadow-md group hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer relative"
+                key={game.id}
+                className="bg-gray-100 dark:bg-gray-700 rounded-lg p-5 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
               >
                 <button
                   onClick={(e) => handleWishList(e, game)}
-                  className={`absolute top-2 right-2 p-2 rounded-full z-10 
+                  className={`absolute top-7 right-7 p-2 rounded-full z-10 
                 ${
                   isInWishList(game.id)
                     ? 'bg-red-500 text-white'
@@ -50,11 +50,20 @@ export default function TrendingGames({ gamesList }) {
                 <Image
                   src={game.background_image}
                   alt={game.name}
-                  width={500}
-                  height={400}
-                  className="object-cover rounded-t-lg h-[270px]"
+                  width={800}
+                  height={500}
+                  className="object-cover w-full h-[200px] rounded-lg"
                 />
-                <h2 className="text-[20px] font-bold p-2">{game.name}</h2>
+                <h2 className="text-[20px] font-bold dark:text-white">
+                  {game.name}
+                  <span className="p-1 rounded-sm ml-2 text-sm bg-green-100 text-green-700 align-center font-medium">
+                    {game.metacritic ? game.metacritic : 'n/a'}
+                  </span>
+                </h2>
+                <h2 className="text-[16px] text-gray-500 dark:text-gray-400">
+                  ⭐{game.rating} 🎮 {game.playtime}
+                  {' hrs'} 🔞{game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
+                </h2>
               </div>
             )
         )}
