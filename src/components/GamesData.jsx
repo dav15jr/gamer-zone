@@ -3,6 +3,7 @@ const API_KEY = process.env.API_KEY;
 import GamesList from './GamesList';
 import Banner from './Banner';
 import TrendingGames from './TrendingGames';
+import GameSearch from './GameSearch';
 
 export default async function GamesData() {
 
@@ -15,14 +16,12 @@ export default async function GamesData() {
   
   const gamesList = data.results;
 
-
-
   
   return (
     <div>
-    <Banner gameBanner ={gamesList[0]}/>
-    <TrendingGames gamesList={gamesList} />
-    <GamesList api={API_KEY} />
+      <Banner gameBanner ={gamesList[0]}/>
+      <TrendingGames gamesList={gamesList} />
+      <GamesList api={API_KEY} />
     </div>
   )
 }

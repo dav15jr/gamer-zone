@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useGenreStore } from '../app/store/GenreStore';
 import Image from 'next/image';
-const API_KEY = process.env.API_KEY;
+
 
 export default function GamesList({ api }) {
   const { activeGenre } = useGenreStore();
