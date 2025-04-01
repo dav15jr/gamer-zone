@@ -5,15 +5,14 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 import { useGameStore } from '../app/store/GameStore';
 import SearchResults from './SearchResults';
 import { useWishListStore } from '../app/store/WishListStore';
-import { Search } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const GameSearch = ({ gamesData }) => {
-  const [query, setQuery] = useState('');
   const [gameSearch, setGameSearch] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null);
-  const { gamesList, setGameList } = useGameStore();
+  const { gamesList, setGameList, searchQuery, clearSearch } = useGameStore();
   const { wishList, addToWishList, removeFromWishList } = useWishListStore();
 
   useEffect(() => {
@@ -22,42 +21,43 @@ const GameSearch = ({ gamesData }) => {
     }
   }, [gamesData, setGameList]);
 
-  const searchGames = async (e) => {
-    e.preventDefault();
-    if (!query) return;
+  useEffect(() => {
+    const searchGames = async () => {
+      if (!searchQuery) return;
 
-    if (!API_KEY) {
-      setError('API key is missing. Check your environment variables.');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setSelectedGame(null); // Clear any previously selected game
-
-    try {
-      const response = await fetch(
-        `https://api.rawg.io/api/games?key=${API_KEY}&search=${query}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`API request failed with status: ${response.status}`);
+      if (!API_KEY) {
+        setError('API key is missing. Check your environment variables.');
+        return;
       }
 
-      const data = await response.json();
-      setGameSearch(data.results);
-    } catch (error) {
-      console.error('Error searching games:', error);
-      setError(`Failed to search games: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
+      setError(null);
+      setSelectedGame(null);
+
+      try {
+        const response = await fetch(
+          `https://api.rawg.io/api/games?key=${API_KEY}&search=${searchQuery}&search_precise=true&ordering=-added`
+        );
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setGameSearch(data.results);
+      } catch (error) {
+        console.error('Error searching games:', error);
+        setError(`Failed to search games: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    searchGames();
+  }, [searchQuery]);
 
   const handleGameSelect = (game) => {
     setSelectedGame(game);
-    // Here you can also add any additional actions when a game is selected
-    // For example, updating your global store or navigating to a detail page
     console.log('Selected game:', game);
   };
 
@@ -73,27 +73,12 @@ const GameSearch = ({ gamesData }) => {
     }
   };
 
-  return (
-    <div className="game-search-container p-4">
-      <form onSubmit={searchGames} className="mb-6">
-        <div className="flex bg-slate-200 dark:bg-slate-800 p-2 w-full mx-5 rounded-full items-center">
-        <Search height={20} />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for games..."
-            className="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          <button
-            type="submit"
-            className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-          >
-            Search
-          </button>
-        </div>
-      </form>
+  if (!searchQuery) {
+    return null;
+  }
 
+  return (
+    <div className="game-search-container p-4 relative">
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {loading ? (
@@ -101,7 +86,7 @@ const GameSearch = ({ gamesData }) => {
           <p>Loading...</p>
         </div>
       ) : (
-        <div className="flex gap-6">
+        <div className="flex flex-col sm:flex-row gap-4">
           {/* Search Results Section */}
           <div className="flex-1">
             {gameSearch && (
@@ -115,7 +100,7 @@ const GameSearch = ({ gamesData }) => {
 
           {/* Selected Game Details Section */}
           {selectedGame && (
-            <div className="w-1/3 selected-game-details p-4 border rounded-lg">
+            <div className="w-1/2 lg:w-1/3 h-full selected-game-details p-4 border rounded-lg bg-purple-200 dark:bg-purple-800">
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-xl font-bold">Game Details</h2>
                 <div className="flex gap-2">
@@ -126,7 +111,7 @@ const GameSearch = ({ gamesData }) => {
                     }}
                     className={`p-2 rounded-lg ${
                       isInWishList(selectedGame.id)
-                        ? 'bg-red-500 text-white'
+                        ? 'bg-red-300 text-white'
                         : 'bg-gray-200 hover:bg-gray-300'
                     }`}
                     title={
@@ -139,9 +124,9 @@ const GameSearch = ({ gamesData }) => {
                   </button>
                   <button
                     onClick={() => setSelectedGame(null)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-700 hover:text-red-700 p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
                   >
-                    ×
+                    <X size={20} />
                   </button>
                 </div>
               </div>
@@ -160,7 +145,15 @@ const GameSearch = ({ gamesData }) => {
                   <strong>Released:</strong> {selectedGame.released}
                 </p>
                 <p>
+                  <strong>MetaScore:</strong>{' '}
+                  {selectedGame.metacritic ? selectedGame.metacritic : 'n/a'}
+                </p>
+                <p>
                   <strong>Rating:</strong> {selectedGame.rating}/5
+                </p>
+                <p>
+                  <strong>Playtime:</strong> {selectedGame.playtime}
+                  {' hour/s'}
                 </p>
                 <p>
                   <strong>Genres:</strong>{' '}

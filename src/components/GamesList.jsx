@@ -4,10 +4,11 @@ import { useGenreStore } from '../app/store/GenreStore';
 import { useWishListStore } from '../app/store/WishListStore';
 import Image from 'next/image';
 
-export default function GamesList({ api }) {
+export default function GamesList() {
   const { activeGenre } = useGenreStore();
   const [genreGames, setGenreGames] = useState([]);
   const { wishList, addToWishList, removeFromWishList } = useWishListStore();
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
   const isInWishList = (gameId) => {
     return wishList.some((game) => game.id === gameId);
@@ -25,7 +26,7 @@ export default function GamesList({ api }) {
   useEffect(() => {
     async function fetchGames() {
       const response = await fetch(
-        `https://api.rawg.io/api/games?key=${api}&genres=${activeGenre.id}`
+        `https://api.rawg.io/api/games?key=${API_KEY}&genres=${activeGenre.id}`
       );
       const data = await response.json();
 
@@ -55,7 +56,7 @@ export default function GamesList({ api }) {
               className={`absolute top-7 right-7 p-2 rounded-full z-10 
                 ${
                   isInWishList(game.id)
-                    ? 'bg-red-500 text-white'
+                    ? 'bg-red-300 text-white'
                     : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500'
                 } transition-all duration-300`}
               title={

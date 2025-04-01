@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 
-export const useGameStore = create((set) => ({
-  gameList: [],
-  setGameList: (gameList) => set({ gameList }),
+const useGameStore = create((set) => ({
+  gamesList: [],
+  searchQuery: '',
+  setGameList: (games) => set({ gamesList: games }),
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  clearSearch: () => set({ searchQuery: '' }),
 }));
+
+export { useGameStore };

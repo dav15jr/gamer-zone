@@ -2,14 +2,20 @@
 
 import logo from '@/assets/Images/logo.png';
 import Image from 'next/image';
-import { Moon, Sun, ScrollText} from 'lucide-react';
+import { Moon, Sun, ScrollText } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import GameSearch from './GameSearch';
+import SearchForm from './SearchForm';
 import Link from 'next/link';
+import { useGameStore } from '../app/store/GameStore';
 
 export default function Header() {
   const { theme, setTheme, systemTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
+  const { setSearchQuery } = useGameStore();
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
 
   return (
     <div className="flex items-center p-3 justify-between">
@@ -23,12 +29,12 @@ export default function Header() {
         />
       </Link>
 
-        <GameSearch />
-    
+      <SearchForm onSearch={handleSearch} />
+
       <div className="cursor-pointer flex gap-4">
         <Link href="/wishlist">
-        <ScrollText />
-      </Link>
+          <ScrollText />
+        </Link>
         {currentTheme === 'light' ? (
           <Moon className="" onClick={() => setTheme('dark')} />
         ) : (

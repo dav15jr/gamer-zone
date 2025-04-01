@@ -22,13 +22,13 @@ export default function TrendingGames({ gamesList }) {
   return (
     <div className="mt-5 hidden md:block">
       <h2 className="text-3xl font-bold mt-5">Trending Games</h2>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 py-5">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 py-5">
         {gamesList.map(
           (game, index) =>
             index < 4 && (
               <div
                 key={game.id}
-                className="bg-gray-100 dark:bg-gray-700 rounded-lg p-5 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
+                className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
               >
                 <button
                   onClick={(e) => handleWishList(e, game)}

@@ -7,13 +7,13 @@ export function GenreList({ genreList }) {
   const { activeGenre, setActiveGenre } = useGenreStore();
 
   return (
-    <div>
+    <div className='min-w-[120px]'>
       <h2 className="text-[30px] font-bold dark:text-white ">Genre</h2>
       {genreList.map((genre) => (
         <div
           key={genre.id}
           onClick={() => setActiveGenre({id : genre.id, name : genre.name})}
-          className={`flex gap-5 items-center mb-2 cursor-pointer hover:bg-gray-300 p-2 group rounded-lg hover:dark:bg-gray-600 ${
+          className={`flex flex-col xl:flex-row gap-5 items-center mb-2 cursor-pointer hover:bg-gray-300 p-2 group rounded-lg hover:dark:bg-gray-600 ${
             activeGenre === genre.id ? 'bg-gray-300 dark:bg-gray-600' : null
           }`}
         >
@@ -27,7 +27,7 @@ export function GenreList({ genreList }) {
             }`}
           />
           <h3
-            className={`dark:text-white text-[18px] group-hover:font-bold transition-all ease-out duration-300 ${
+            className={` dark:text-white text-[18px] group-hover:font-bold transition-all ease-out duration-300 ${
               activeGenre === genre.id ? 'font-bold' : null
             }`}
           >

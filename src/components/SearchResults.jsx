@@ -1,10 +1,12 @@
 import React from 'react';
 import { useWishListStore } from '../app/store/WishListStore';
+import { useGameStore } from '../app/store/GameStore';
 import Image from 'next/image';
+import { X } from 'lucide-react';
 
 const SearchResults = ({ games, onGameSelect, selectedGame }) => {
   const { wishList, addToWishList, removeFromWishList } = useWishListStore();
-
+  const { clearSearch } = useGameStore();
   const isInWishList = (gameId) => {
     return wishList.some((game) => game.id === gameId);
   };
@@ -23,13 +25,20 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
   }
 
   return (
-    <div className="search-results">
+    <div className="search-results relative bg-purple-300 dark:bg-purple-600 p-3 rounded-lg">
       <h2 className="text-3xl font-bold py-3">Search Results</h2>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 py-5">
+      <button
+        onClick={clearSearch}
+        className="absolute top-6 right-6 p-2 rounded-full hover:text-red-700 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+        title="Close search results"
+      >
+        <X size={20} />
+      </button>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 py-5">
         {games.map((game) => (
           <div
             key={game.id}
-            className="bg-gray-100 dark:bg-gray-700 rounded-lg p-5 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
+            className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
             onClick={() => onGameSelect(game)}
           >
             <button
@@ -37,7 +46,7 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
               className={`absolute top-7 right-7 p-2 rounded-full z-10 
                 ${
                   isInWishList(game.id)
-                    ? 'bg-red-500 text-white'
+                    ? 'bg-red-300 text-white'
                     : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500'
                 } transition-all duration-300`}
               title={
@@ -52,9 +61,9 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
             <Image
               src={game.background_image}
               alt={game.name}
-              width={800}
-              height={500}
-              className="object-cover w-full h-[200px] rounded-lg"
+              width={500}
+              height={300}
+              className="object-cover w-full h-[150px] rounded-lg"
             />
             <h2 className="text-[20px] font-bold dark:text-white">
               {game.name}
@@ -62,9 +71,9 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
                 {game.metacritic ? game.metacritic : 'n/a'}
               </span>
             </h2>
-            <h2 className="text-[16px] text-gray-500 dark:text-gray-400">
-              ⭐{game.rating} 🎮 {game.playtime}
-              {' hrs'} 🔞{game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
+            <h2 className="text-[16px] text-gray-500 dark:text-gray-400 justify-between">
+              ⭐{game.rating}{' '}
+              🔞{game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
             </h2>
           </div>
         ))}
