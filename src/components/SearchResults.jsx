@@ -25,7 +25,7 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
   }
 
   return (
-    <div className="search-results relative bg-purple-300 dark:bg-purple-600 p-3 rounded-lg">
+    <div className="search-results relative bg-purple-400 dark:bg-purple-950 p-3 rounded-lg">
       <h2 className="text-3xl font-bold py-3">Search Results</h2>
       <button
         onClick={clearSearch}
@@ -38,7 +38,7 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
         {games.map((game) => (
           <div
             key={game.id}
-            className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
+            className=" bg-purple-300 dark:bg-purple-900 rounded-lg p-3 cursor-pointer hover:dark:bg-purple-700 hover:bg-purple-200 hover:scale-110 transition-all ease-in-out duration-300 relative"
             onClick={() => onGameSelect(game)}
           >
             <button
@@ -58,22 +58,30 @@ const SearchResults = ({ games, onGameSelect, selectedGame }) => {
               {isInWishList(game.id) ? '❤️' : '🤍'}
             </button>
 
-            <Image
-              src={game.background_image}
-              alt={game.name}
-              width={500}
-              height={300}
-              className="object-cover w-full h-[150px] rounded-lg"
-            />
+            {game.background_image ? (
+              <Image
+                src={game.background_image}
+                alt={game.name}
+                width={500}
+                height={300}
+                className="object-cover w-full h-[150px] rounded-lg"
+              />
+            ) : (
+              <div className="w-full h-[150px] bg-gray-300 dark:bg-gray-600 rounded-lg flex items-center justify-center">
+                <span className="text-gray-500 dark:text-gray-400">
+                  No image available
+                </span>
+              </div>
+            )}
             <h2 className="text-[20px] font-bold dark:text-white">
               {game.name}
               <span className="p-1 rounded-sm ml-2 text-sm bg-green-100 text-green-700 align-center font-medium">
                 {game.metacritic ? game.metacritic : 'n/a'}
               </span>
             </h2>
-            <h2 className="text-[16px] text-gray-500 dark:text-gray-400 justify-between">
-              ⭐{game.rating}{' '}
-              🔞{game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
+            <h2 className="text-[16px] text-gray-600 dark:text-gray-300 justify-between">
+              ⭐{game.rating} 🔞
+              {game.esrb_rating ? game.esrb_rating?.name : 'N/A'}
             </h2>
           </div>
         ))}

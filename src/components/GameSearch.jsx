@@ -6,6 +6,7 @@ import { useGameStore } from '../app/store/GameStore';
 import SearchResults from './SearchResults';
 import { useWishListStore } from '../app/store/WishListStore';
 import { X } from 'lucide-react';
+import Image from 'next/image';
 
 const GameSearch = ({ gamesData }) => {
   const [gameSearch, setGameSearch] = useState();
@@ -78,7 +79,7 @@ const GameSearch = ({ gamesData }) => {
   }
 
   return (
-    <div className="game-search-container p-4 relative">
+    <div className="game-search-container py-2 md:p-4 relative">
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {loading ? (
@@ -89,7 +90,7 @@ const GameSearch = ({ gamesData }) => {
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search Results Section */}
           <div className="flex-1">
-            {gameSearch && (
+            {gameSearch && !selectedGame && (
               <SearchResults
                 games={gameSearch}
                 onGameSelect={handleGameSelect}
@@ -100,9 +101,9 @@ const GameSearch = ({ gamesData }) => {
 
           {/* Selected Game Details Section */}
           {selectedGame && (
-            <div className="w-1/2 lg:w-1/3 h-full selected-game-details p-4 border rounded-lg bg-purple-200 dark:bg-purple-800">
+            <div className="w-full h-full selected-game-details p-2 md:p-4 border rounded-lg bg-purple-200 dark:bg-purple-800">
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-bold">Game Details</h2>
+                <h2 className="text-2xl font-bold">Selected Game Details</h2>
                 <div className="flex gap-2">
                   <button
                     onClick={(e) => {
@@ -130,17 +131,24 @@ const GameSearch = ({ gamesData }) => {
                   </button>
                 </div>
               </div>
+              <div className='flex flex-col lg:flex-row'>
+              <div className='flex-col lg:flex-row'>
               {selectedGame.background_image && (
-                <img
-                  src={selectedGame.background_image}
-                  alt={selectedGame.name}
-                  className="w-full rounded-lg mb-4"
+                <Image
+                src={selectedGame.background_image}
+                alt={selectedGame.name}
+                width={500}
+                height={500}
+                priority
+                className="w-full rounded-lg mb-4"
                 />
               )}
-              <h3 className="text-lg font-semibold mb-2">
+              </div>
+              <div className="mx-4">
+              <h3 className="text-xl font-semibold mb-2">
                 {selectedGame.name}
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-2 md:text-xl">
                 <p>
                   <strong>Released:</strong> {selectedGame.released}
                 </p>
@@ -165,6 +173,8 @@ const GameSearch = ({ gamesData }) => {
                     ?.map((p) => p.platform.name)
                     .join(', ')}
                 </p>
+              </div>
+              </div>
               </div>
             </div>
           )}

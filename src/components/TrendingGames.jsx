@@ -48,10 +48,11 @@ export default function TrendingGames({ gamesList }) {
                 </button>
 
                 <Image
-                  src={game.background_image}
+                  src={game.background_image ? game.background_image : null}
                   alt={game.name}
                   width={800}
                   height={500}
+                  priority
                   className="object-cover w-full h-[200px] rounded-lg"
                 />
                 <h2 className="text-[20px] font-bold dark:text-white">
