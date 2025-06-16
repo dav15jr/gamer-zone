@@ -25,20 +25,25 @@ export default function GamesList() {
 
   useEffect(() => {
     async function fetchGames() {
+
+      try{
       const response = await fetch(
         `https://api.rawg.io/api/games?key=${API_KEY}&genres=${activeGenre.id}`
       );
-      const data = await response.json();
-
+   
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+      const data = await response.json();
       const gamesResults = data.results;
-
       setGenreGames(gamesResults);
-    }
 
+    } catch (error) {
+      console.error('Error fetching games:', error);
+
+    }
+  }
     fetchGames();
   }, [activeGenre]);
 

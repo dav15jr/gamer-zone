@@ -13,7 +13,7 @@ const GameSearch = ({ gamesData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null);
-  const { gamesList, setGameList, searchQuery, clearSearch } = useGameStore();
+  const { setGameList, searchQuery} = useGameStore();
   const { wishList, addToWishList, removeFromWishList } = useWishListStore();
 
   useEffect(() => {
@@ -131,50 +131,52 @@ const GameSearch = ({ gamesData }) => {
                   </button>
                 </div>
               </div>
-              <div className='flex flex-col lg:flex-row'>
-              <div className='flex-col lg:flex-row'>
-              {selectedGame.background_image && (
-                <Image
-                src={selectedGame.background_image}
-                alt={selectedGame.name}
-                width={500}
-                height={500}
-                priority
-                className="w-full rounded-lg mb-4"
-                />
-              )}
-              </div>
-              <div className="mx-4">
-              <h3 className="text-xl font-semibold mb-2">
-                {selectedGame.name}
-              </h3>
-              <div className="space-y-2 md:text-xl">
-                <p>
-                  <strong>Released:</strong> {selectedGame.released}
-                </p>
-                <p>
-                  <strong>MetaScore:</strong>{' '}
-                  {selectedGame.metacritic ? selectedGame.metacritic : 'n/a'}
-                </p>
-                <p>
-                  <strong>Rating:</strong> {selectedGame.rating}/5
-                </p>
-                <p>
-                  <strong>Playtime:</strong> {selectedGame.playtime}
-                  {' hour/s'}
-                </p>
-                <p>
-                  <strong>Genres:</strong>{' '}
-                  {selectedGame.genres?.map((g) => g.name).join(', ')}
-                </p>
-                <p>
-                  <strong>Platforms:</strong>{' '}
-                  {selectedGame.platforms
-                    ?.map((p) => p.platform.name)
-                    .join(', ')}
-                </p>
-              </div>
-              </div>
+              <div className="flex flex-col lg:flex-row">
+                <div className="flex-col lg:flex-row">
+                  {selectedGame.background_image && (
+                    <Image
+                      src={selectedGame.background_image}
+                      alt={selectedGame.name}
+                      width={500}
+                      height={500}
+                      priority
+                      className="w-full rounded-lg mb-4"
+                    />
+                  )}
+                </div>
+                <div className="mx-4">
+                  <h3 className="text-xl font-semibold mb-2">
+                    {selectedGame.name}
+                  </h3>
+                  <div className="space-y-2 md:text-xl">
+                    <p>
+                      <strong>Released:</strong> {selectedGame.released}
+                    </p>
+                    <p>
+                      <strong>MetaScore:</strong>{' '}
+                      {selectedGame.metacritic
+                        ? selectedGame.metacritic
+                        : 'n/a'}
+                    </p>
+                    <p>
+                      <strong>Rating:</strong> {selectedGame.rating}/5
+                    </p>
+                    <p>
+                      <strong>Playtime:</strong> {selectedGame.playtime}
+                      {' hour/s'}
+                    </p>
+                    <p>
+                      <strong>Genres:</strong>{' '}
+                      {selectedGame.genres?.map((g) => g.name).join(', ')}
+                    </p>
+                    <p>
+                      <strong>Platforms:</strong>{' '}
+                      {selectedGame.platforms
+                        ?.map((p) => p.platform.name)
+                        .join(', ')}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
